@@ -324,8 +324,8 @@ class SelectionTextWidget(TextWidget):
         x = min(float(x), (self.font.size(self.text[:-1])[0]
                            + self.font.size(self.text[-1:])[0] * 1.5))
         index = 0
-        n = 0
         if self.text:
+            n = 0
             for n in range(max(min(int(x / (self.font.size(self.text)[0] / length)), length - 1), 0), 0, -1):
                 if self.font.size(self.text[:n])[0] + self.font.size(self.text[n])[0] < x:
                     break
@@ -371,9 +371,8 @@ class SelectionTextWidget(TextWidget):
                     if self.selection_index == self.cursor:
                         if event.key == pygame.K_DELETE:
                             self.delete(self.selection_index + 1, CURSOR)
-                        else:
-                            if self.delete(self.selection_index - 1, CURSOR):
-                                self.moveCursor(-1)
+                        elif self.delete(self.selection_index - 1, CURSOR):
+                            self.moveCursor(-1)
                     else:
                         s, c = self._sort(SELECTION, CURSOR)
                         if self.delete(s, c):

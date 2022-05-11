@@ -31,9 +31,7 @@ def _getScalingFunctionForSmoothness(self, smooth):
     Returns:
         A corresponding scaling-function which transforms a given surface (see pygame.transform.scale).
     """
-    if smooth:
-        return pygame.transform.smoothscale
-    return pygame.transform.scale
+    return pygame.transform.smoothscale if smooth else pygame.transform.scale
 
 class Widget(pygame.sprite.DirtySprite):
 

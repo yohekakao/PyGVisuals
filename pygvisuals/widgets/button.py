@@ -133,10 +133,7 @@ class Button(Label):
         inherit_doc::
         """
         if self._state:
-            if self._state >= 2:
-                self._state = 1
-            else:
-                self._state = 0
+            self._state = 1 if self._state >= 2 else 0
             self.markDirty()
         if len(args) > 0 and self.isActive():
             event = args[0]
@@ -148,14 +145,14 @@ class Button(Label):
 
             if pressed is not None and self.rect.collidepoint(event.pos):
                 self._state = 1
-                if pressed:
-                    if event.type == pygame.MOUSEBUTTONUP:
-                        if self.isFocused():
-                            try:
-                                self.callback()
-                            except Exception as e:
-                                print(repr(e))
-                    elif event.type == pygame.MOUSEBUTTONDOWN or self.isFocused():
+                if event.type == pygame.MOUSEBUTTONUP:
+                    if pressed and self.isFocused():
+                        try:
+                            self.callback()
+                        except Exception as e:
+                            print(repr(e))
+                elif event.type == pygame.MOUSEBUTTONDOWN or self.isFocused():
+                    if pressed:
                         self._state = 2
                 self.markDirty()
 

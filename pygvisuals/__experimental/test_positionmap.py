@@ -205,7 +205,7 @@ def mapDrawPixelRandom():
     stop = False
     color = (250, 150, 100)
     while True:
-        for n in range(m.getHeight()):
+        for _ in range(m.getHeight()):
             x, y = random.randint(0, m.getWidth()), random.randint(0, m.getHeight())
             if rc:
                 color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
@@ -272,14 +272,12 @@ if __name__ == "__main__":
     createFromImage()
     printHelp()
     while True:
-        if mode == "n":
-            mapDraw()
-        elif mode == "p":
+        if mode == "p":
             mapDrawPixel()
-        elif mode == "s":
-            mapDrawPixelSlow()
         elif mode == "r":
             mapDrawPixelRandom()
+        elif mode == "s":
+            mapDrawPixelSlow()
         else:
             mapDraw()
         screen.fill((255, 255, 255))

@@ -146,5 +146,10 @@ def _extract_inheritance_parameters_from_doc(doc, doc_inheritance_specifier=None
     """
     if not doc_inheritance_specifier:
         doc_inheritance_specifier = "inherit_doc::"
-    pattern = re.compile("".join(map(lambda s: "[" + s + "]", doc_inheritance_specifier)) + "(?:[ ](\\S*))?", re.MULTILINE)
+    pattern = re.compile(
+        "".join(map(lambda s: f"[{s}]", doc_inheritance_specifier))
+        + "(?:[ ](\\S*))?",
+        re.MULTILINE,
+    )
+
     return re.finditer(pattern, doc)

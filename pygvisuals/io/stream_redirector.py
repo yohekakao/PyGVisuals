@@ -91,10 +91,7 @@ class StreamRedirector(io.IOBase):
         if self._buffer:
             splitted = self._buffer.split("\n", 1)
             data = splitted[0]
-            if len(splitted) > 1:
-                self._buffer = splitted[1]
-            else:
-                self._buffer = ""
+            self._buffer = splitted[1] if len(splitted) > 1 else ""
             if self._timestampFormat:
                 data = time.strftime(self._timestampFormat) + data
             self._callback(data)
