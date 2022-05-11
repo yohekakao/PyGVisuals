@@ -58,22 +58,20 @@ def getDrawnTree(tree, colors = None, surface = None, current = None, pre = None
                     tuple previous node and previous position
     return values:  pygame.Surface the Surface with the tree drawn on it
     """
-    if surface == None:
+    if surface is None:
         size = 0
         if tree.root != None:
-            size = 0
-            for n in range(tree.holeHoehe() + 1):
-                size += 400 // (2 ** n)
+            size = sum(400 // (2 ** n) for n in range(tree.holeHoehe() + 1))
         surface = pygame.Surface((size, size), pygame.SRCALPHA, 32)
-    if tree.root == None:
+    if tree.root is None:
         print("Tree is empty!")
     else:
-        if current == None:
+        if current is None:
             current = tree.root
         h = tree.holeTiefe(current)
         s = 2 ** (h - 1)
         n = 2 ** (h - 2)
-        if pre == None:
+        if pre is None:
             x = surface.get_width() // 2 - ((400 // s) // 2)
             y = 0
         else:
@@ -99,7 +97,7 @@ def getDrawnNode(node, colors = None):
     return values:  pygame.Surface the Surface with the node drawn on it
     """
     surface = pygame.Surface((400, 400), pygame.SRCALPHA, 32)
-    if colors == None:
+    if colors is None:
         color = (0, 0, 0)
     elif isinstance(colors, (list, tuple)) and isinstance(colors[0], (list, tuple)):
         l = []
@@ -144,7 +142,7 @@ def addToTree():
     v = e_value.getText()
     if len(v) <= 0:
         return
-    if tree == None:
+    if tree is None:
         tree = avltree.AVLBaum()
     tree.einfuegen(float(v))
     update = True
@@ -174,7 +172,7 @@ def createRandomTree():
     global tree, update
     l       = []
     length  = int(e_length.getText())
-    for n in range(length):
+    for _ in range(length):
         while True:
             number = random.randint(1, length)
             if number not in l:

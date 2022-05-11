@@ -16,7 +16,7 @@ class ShaderOverlay():
         parameters:     -
         return values:  -
         """
-        self._lightsources = dict()
+        self._lightsources = {}
         self._background = background
         try:
             positionmap.isPositionValid(0, 0)
@@ -105,7 +105,7 @@ class ShaderOverlay():
         directionX = (pos[0] - dest[0]) / float(steps)
         directionY = (pos[1] - dest[1]) / float(steps)
         x, y = pos
-        for i in range(steps):
+        for _ in range(steps):
             x += directionX
             y += directionY
             if x < rect.x or x > rect.w:
@@ -142,14 +142,46 @@ class ShaderOverlay():
 
             polygon = []
             try:
-                for x in range(1, 2 * radius + r.w, quality):
-                    polygon.append(self.raycast(r.center, (r.left - radius + x, r.top - radius), rect, radius))
-                for y in range(1, 2 * radius + r.h, quality):
-                    polygon.append(self.raycast(r.center, (r.right + radius, r.top - radius + y), rect, radius))
-                for x in range(1, 2 * radius + r.w, quality):
-                    polygon.append(self.raycast(r.center, (r.right + radius - x, r.bottom + radius), rect, radius))
-                for y in range(1, 2 * radius + r.h, quality):
-                    polygon.append(self.raycast(r.center, (r.left - radius, r.bottom + radius - y), rect, radius))
+                polygon.extend(
+                    self.raycast(
+                        r.center,
+                        (r.left - radius + x, r.top - radius),
+                        rect,
+                        radius,
+                    )
+                    for x in range(1, 2 * radius + r.w, quality)
+                )
+
+                polygon.extend(
+                    self.raycast(
+                        r.center,
+                        (r.right + radius, r.top - radius + y),
+                        rect,
+                        radius,
+                    )
+                    for y in range(1, 2 * radius + r.h, quality)
+                )
+
+                polygon.extend(
+                    self.raycast(
+                        r.center,
+                        (r.right + radius - x, r.bottom + radius),
+                        rect,
+                        radius,
+                    )
+                    for x in range(1, 2 * radius + r.w, quality)
+                )
+
+                polygon.extend(
+                    self.raycast(
+                        r.center,
+                        (r.left - radius, r.bottom + radius - y),
+                        rect,
+                        radius,
+                    )
+                    for y in range(1, 2 * radius + r.h, quality)
+                )
+
             except:
                 removeAfter.append(ls)
 

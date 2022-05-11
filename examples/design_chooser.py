@@ -75,8 +75,7 @@ def main_loop():
     def change_design(*args):
         index = d.getSelection()[0]
         if index >= 0 and index <= len(d.getList()):
-            design = getRegisteredDesign(d.getList()[index])
-            if design:
+            if design := getRegisteredDesign(d.getList()[index]):
                 design.applyToWidgets(demo)
     c = gui.Button(480, 310, 200, 50, "apply selected design", callback=change_design)
 

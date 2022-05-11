@@ -189,11 +189,10 @@ class ScrollWidget(widget.Widget):
                             self.moveXViewpoint(-1)
                         elif event.button == 5:
                             self.moveXViewpoint(1)
-                    else:
-                        if event.button == 4:
-                            self.moveYViewpoint(-1)
-                        elif event.button == 5:
-                            self.moveYViewpoint(1)
+                    elif event.button == 4:
+                        self.moveYViewpoint(-1)
+                    elif event.button == 5:
+                        self.moveYViewpoint(1)
             elif event.type == pygame.MOUSEMOTION:
                 if event.buttons[0] and self.isFocused():
                     if self._xBarRect.move(self._bounds.x, self._bounds.y).collidepoint(event.pos):
@@ -225,16 +224,26 @@ class ScrollWidget(widget.Widget):
             self._drawXScrollbar(surface)
         elif self._xBarDrawMode == WHEN_NEEDED and len(args) > 0 and self.isActive():
             event = args[0]
-            if event.type == pygame.MOUSEMOTION and self.isFocused():
-                if self._xBarRect.move(self._bounds.x, self._bounds.y).inflate(self.rect.w - self._xBarRect.w, 20).collidepoint(event.pos):
-                    self._drawXScrollbar(surface)
+            if (
+                event.type == pygame.MOUSEMOTION
+                and self.isFocused()
+                and self._xBarRect.move(self._bounds.x, self._bounds.y)
+                .inflate(self.rect.w - self._xBarRect.w, 20)
+                .collidepoint(event.pos)
+            ):
+                self._drawXScrollbar(surface)
         if self._yBarDrawMode == NEVER:
             pass
         elif self._yBarDrawMode == ALWAYS:
             self._drawYScrollbar(surface)
         elif self._yBarDrawMode == WHEN_NEEDED and len(args) > 0 and self.isActive():
             event = args[0]
-            if event.type == pygame.MOUSEMOTION and self.isFocused():
-                if self._yBarRect.move(self._bounds.x, self._bounds.y).inflate(20, self.rect.h - self._yBarRect.h).collidepoint(event.pos):
-                    self._drawYScrollbar(surface)
+            if (
+                event.type == pygame.MOUSEMOTION
+                and self.isFocused()
+                and self._yBarRect.move(self._bounds.x, self._bounds.y)
+                .inflate(20, self.rect.h - self._yBarRect.h)
+                .collidepoint(event.pos)
+            ):
+                self._drawYScrollbar(surface)
         return surface

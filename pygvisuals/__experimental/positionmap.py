@@ -170,7 +170,7 @@ class PositionMap:
             return False
         if y < 0:
             return False
-        return not (x, y) in self._invalidPositions
+        return (x, y) not in self._invalidPositions
 
     def isRectValid(self, rect):
         """

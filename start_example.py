@@ -44,13 +44,15 @@ examples = []
 
 for path in example_directories:
     for root, dirs, files in os.walk(path):
-        for f in files:
-            if has_main_loop(os.path.join(root, f)):
-                examples.append(os.path.join(root, f))
+        examples.extend(
+            os.path.join(root, f)
+            for f in files
+            if has_main_loop(os.path.join(root, f))
+        )
 
 print("List of executable examples:")
 for e in range(len(examples)):
-    print(str(e) + ":", examples[e])
+    print(f"{str(e)}:", examples[e])
 
 ### Handle User-Input ###
 
@@ -58,7 +60,7 @@ print("")
 print("Choose an example to execute with its index! (type 'exit' to exit)")
 
 index = None
-while index == None:
+while index is None:
     userinput = str(input("index: "))
     if userinput.lower() == "exit":
         sys.exit()
